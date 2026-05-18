@@ -1,4 +1,4 @@
-// Elementos do DOM
+
 const loginForm = document.getElementById('login-form');
 const registerForm = document.getElementById('register-form');
 const toggleLink = document.getElementById('toggle-link');
@@ -7,10 +7,10 @@ const formTitle = document.getElementById('form-title');
 const formSubtitle = document.getElementById('form-subtitle');
 const errorMessage = document.getElementById('error-message');
 
-// Variáveis globais de usuários (serão salvas no localStorage)
+
 let users = [];
 
-// Carregar usuários do localStorage ao iniciar
+
 function loadUsers() {
     const storedUsers = localStorage.getItem('users');
     if (storedUsers) {
@@ -25,12 +25,12 @@ function loadUsers() {
     }
 }
 
-// Salvar usuários no localStorage
+
 function saveUsers() {
     localStorage.setItem('users', JSON.stringify(users));
 }
 
-// Verificar se há usuário logado
+
 function checkLoggedUser() {
     const loggedUser = localStorage.getItem('loggedUser');
     if (loggedUser) {
@@ -38,7 +38,7 @@ function checkLoggedUser() {
     }
 }
 
-// Mostrar mensagem de erro
+
 function showError(message) {
     errorMessage.textContent = message;
     errorMessage.classList.add('show');
@@ -47,7 +47,7 @@ function showError(message) {
     }, 3000);
 }
 
-// Toggle entre login e registro
+
 toggleLink.addEventListener('click', (e) => {
     e.preventDefault();
     
@@ -72,7 +72,7 @@ toggleLink.addEventListener('click', (e) => {
     });
 });
 
-// Função para alternar forms (recursiva)
+
 function toggleForms() {
     if (loginForm.style.display === 'none') {
         loginForm.style.display = 'block';
@@ -88,7 +88,7 @@ function toggleForms() {
         toggleText.innerHTML = 'Já tem conta? <a href="#" id="toggle-link">Faça login</a>';
     }
     
-    // Re-anexar evento
+   
     const newToggleLink = document.getElementById('toggle-link');
     if (newToggleLink) {
         newToggleLink.addEventListener('click', (e) => {
@@ -98,7 +98,7 @@ function toggleForms() {
     }
 }
 
-// Evento de submit do formulário de login
+
 loginForm.addEventListener('submit', (e) => {
     e.preventDefault();
     
@@ -106,25 +106,25 @@ loginForm.addEventListener('submit', (e) => {
     const password = document.getElementById('password').value.trim();
     const remember = document.getElementById('remember').checked;
     
-    // Verificar credenciais
+    
     const userFound = users.find(u => u.username === username && u.password === password);
     
     if (userFound) {
-        // Login bem sucedido
+       
         localStorage.setItem('loggedUser', username);
         
         if (remember) {
             localStorage.setItem('rememberUser', username);
         }
         
-        // Redirecionar para index.html
+        
         window.location.href = 'index.html';
     } else {
         showError('Usuário ou senha incorretos!');
     }
 });
 
-// Evento de submit do formulário de registro
+
 registerForm.addEventListener('submit', (e) => {
     e.preventDefault();
     
@@ -132,7 +132,7 @@ registerForm.addEventListener('submit', (e) => {
     const regPassword = document.getElementById('reg-password').value.trim();
     const regConfirmPassword = document.getElementById('reg-confirm-password').value.trim();
     
-    // Validações
+    
     if (regUsername.length < 3) {
         showError('O usuário deve ter pelo menos 3 caracteres!');
         return;
@@ -148,28 +148,28 @@ registerForm.addEventListener('submit', (e) => {
         return;
     }
     
-    // Verificar se usuário já existe
+    
     const userExists = users.find(u => u.username === regUsername);
     if (userExists) {
         showError('Este usuário já existe!');
         return;
     }
     
-    // Cadastrar novo usuário
+    
     users.push({ username: regUsername, password: regPassword });
     saveUsers();
     
-    // Mostrar sucesso e voltar para login
+    
     alert('Usuário cadastrado com sucesso! Faça login.');
     toggleForms();
     
-    // Limpar campos
+    
     document.getElementById('reg-username').value = '';
     document.getElementById('reg-password').value = '';
     document.getElementById('reg-confirm-password').value = '';
 });
 
-// Preencher campo usuário se "lembrar" estiver ativo
+
 function fillRememberedUser() {
     const rememberedUser = localStorage.getItem('rememberUser');
     if (rememberedUser) {
@@ -178,7 +178,7 @@ function fillRememberedUser() {
     }
 }
 
-// Inicializar
+
 loadUsers();
 checkLoggedUser();
 fillRememberedUser();
